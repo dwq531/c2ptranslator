@@ -2,7 +2,7 @@
 #include <cstring>
 using namespace std;
 // 判断是否是回文
-bool isPalindrome(const char* str) {
+bool isPalindrome(const char str[]) {
     int start = 0;
     int end = strlen(str) - 1;
 

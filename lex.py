@@ -2,11 +2,17 @@ import ply.lex as lex
 import sys
 # Define the tokens
 tokens = (
-    'ID',   # 标识符
-    'NUMBER',    # 数字
-    'STRING',   # 字符串
-    'OP',   # 运算符
-    'SEMICOLON',    # 分号
+    'ID',              # 标识符
+    'NUMBER',          # 数字
+    'STRING',          # 字符串
+    'ASSIGN',          # 赋值
+    'UNARY_OP',        # 单目运算
+    'BINARY_OP',       # 双目运算
+    'COMPARISON_OP',   # 比较运算
+    'AND_OP',          # 且
+    'OR_OP',           # 或
+    'NO_OP',           # 非
+    'SEMICOLON',       # 分号
     # todo
 )
 reversed = {
@@ -37,8 +43,17 @@ reversed = {
 tokens += tuple(reversed.values())
 
 t_SEMICOLON = r';'
+ASSIGN = r'>>=|<<=|\+=|-=|\*=|/=|%=|&=|\^=|\|='
+t_UNARY_OP = r'--|\+\+'
+t_BINARY_OP = r'<<|>>'
+t_COMPARISON_OP = r'<=|>=|==|!=|<|>'
+t_AND_OP = r'&&'
+t_OR_OP = r'\|\|'
+t_NO_OP = r'!'
+
 
 # Define the regular expressions for each token
+
 def t_ID(token):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     token.type = reversed.get(token.value, 'ID')
@@ -47,6 +62,11 @@ def t_ID(token):
 def t_CONST(token):
     r'\d+'
     token.value = int(token.value)
+    return token
+
+def t_STRING(token):
+    r'\"[^"\n]*\"'
+    token.value = token.value[1:-1]  # 去除双引号，保留字符串内容
     return token
 
 def t_ANNOTATION(token):

@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage{ctex}
+\usepackage{multicol} %用于实现在同一页中实现不同的分栏
+\usepackage{listings}
+\usepackage{ctex}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subfigure}
+\usepackage{hyperref}
+
+\setlength{\columnsep}{1cm}
+
+\lstset{
+    basicstyle          =   \sffamily,          % 基本代码风格
+    keywordstyle        =   \bfseries,          % 关键字风格
+    commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
+    stringstyle         =   \ttfamily,  % 字符串风格
+    flexiblecolumns,                % 别问为什么，加上这个
+    numbers             =   left,   % 行号的位置在左边
+    showspaces          =   false,  % 是否显示空格，显示了有点乱，所以不现实了
+    numberstyle         =   \zihao{-5}\ttfamily,    % 行号的样式，小五号，tt等宽字体
+    showstringspaces    =   false,
+    captionpos          =   t,      % 这段代码的名字所呈现的位置，t指的是top上面
+    frame               =   lrtb,   % 显示边框
+}
+\lstdefinestyle{Python}{
+    language        =   Python, % 语言选Python
+    basicstyle      =   \zihao{-5}\ttfamily,
+    numberstyle     =   \zihao{-5}\ttfamily,
+    keywordstyle    =   \color{blue},
+    keywordstyle    =   [2] \color{teal},
+    stringstyle     =   \color{magenta},
+    commentstyle    =   \color{red}\ttfamily,
+    breaklines      =   true,   % 自动换行，建议不要写太长的行
+    columns         =   fixed,  % 如果不加这一句，字间距就不固定，很丑，必须加
+    basewidth       =   0.5em,
+}
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+\begin{document}
+\title{\textbf{编译小组作业报告-C2Python编译器}}
+\author{杜婉晴 2021011824 陈植 2021011798 苟芳菲 2021011837}
+\maketitle \thispagestyle{empty}
+\section{开发环境}
+
+\textbf{编程语言：}Python
+
+\textbf{词法分析工具: }
+\href{https://tastones.com/stackoverflow/python-language/python-lex-yacc/getting_started_with_ply/}{Lex-Yacc，PLY库}。
+
+\textbf{代码运行方法: }在官网下载并安装PLY库后，直接运行lex.py，默认的输入文件是huiwen.cpp，可以通过命令参数输入文件名。词法分析的token流会输出到output.txt中。
+
+\section{实现功能}
+\subsection{词法分析}
+1. 识别C语言中的保留字，如类型标识符、控制语句、循环语句等。
+
+2. 忽略“//”注释
+
+3. 识别数字、字符串等常量
+
+4. 识别变量、函数名称
+
+5. 识别其他符号，如运算符、分隔符等
+
+\section{实现原理}
+\subsection{词法分析}
+词法分析运用了lex工具，通过定义token名称和对应的正则表达式，可识别出C语言中的各种token。并且通过定义保留字列表，避免C语言中的保留字被识别为变量名。
+
+\end{document}

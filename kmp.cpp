@@ -2,6 +2,7 @@
 #include <cstring>
 #include <vector>
 using namespace std;
+// 生成匹配表
 void computeLPSArray(const char* pattern, int patternLength, int* lps) {
     int len = 0;
     int i = 1;
@@ -22,7 +23,7 @@ void computeLPSArray(const char* pattern, int patternLength, int* lps) {
         }
     }
 }
-
+// KMP算法
 vector<int> kmp(const char* text, const char* pattern) {
     vector<int> positions;
     int textLength = strlen(text);

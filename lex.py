@@ -1,5 +1,5 @@
 import ply.lex as lex
-
+import sys
 # Define the tokens
 tokens = (
     'ID',   # 标识符
@@ -49,6 +49,9 @@ def t_CONST(token):
     token.value = int(token.value)
     return token
 
+def t_ANNOTATION(token):
+    r'//[^\n]*'
+    pass
 # Add more token definitions here
 
 # Define any ignored characters (whitespace, etc.)
@@ -62,8 +65,13 @@ def t_error(token):
 # Build the lexer
 lexer = lex.lex()
 if __name__ == '__main__':
-    
     file_path = "./huiwen.cpp"
+    arguments = sys.argv[1:]
+    if len(arguments) > 0:
+        file_path = arguments[0]
+
+        
+    
     with open(file_path, "r") as file:
         data = file.read()
 

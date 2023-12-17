@@ -19,6 +19,7 @@ bool isPalindrome(const char* str) {
 
 int main() {
     char input[100];
+    float test = 102.329;
     cout << "Enter a string: ";
     cin >> input;
 

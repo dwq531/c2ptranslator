@@ -52,16 +52,21 @@ t_OR_OP = r'\|\|'
 t_NO_OP = r'!'
 
 
-# Define the regular expressions for each token
-
+# 变量名、函数名等标识符，除去保留字
 def t_ID(token):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     token.type = reversed.get(token.value, 'ID')
     return token
 
-def t_CONST(token):
-    r'\d+'
-    token.value = int(token.value)
+# 整数，十六进制证书，浮点数
+def t_NUMBER(token):
+    r'0[xX][0-9a-fA-F]+|\d+\.\d+|\d+'
+    if token.value.startswith('0x'):
+        token.value = int(token.value, 16)
+    elif '.' in token.value:
+        token.value = float(token.value)
+    else:
+        token.value = int(token.value)
     return token
 
 def t_STRING(token):
@@ -74,7 +79,7 @@ def t_ANNOTATION(token):
     pass
 # Add more token definitions here
 
-# Define any ignored characters (whitespace, etc.)
+# 过滤空格换行
 t_ignore = ' \t\r\n'
 
 # Define error handling rule

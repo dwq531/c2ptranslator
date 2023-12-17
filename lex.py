@@ -62,17 +62,16 @@ reversed = {
     'include': 'INCLUDE',
     'false': 'FALSE',
     'true': 'TRUE',
-    # todo
 }
 
 tokens += tuple(reversed.values())
 
 t_ELLIPSIS = r'\.\.\.'
 t_SEMICOLON = r';'
-ASSIGN = r'>>=|<<=|\+=|-=|\*=|/=|%=|&=|\^=|\|='
+t_ASSIGN = r'>>=|<<=|\+=|-=|\*=|/=|%=|&=|\^=|\\'
 t_UNARY_OP = r'--|\+\+'
 t_BINARY_OP = r'<<|>>'
-t_COMPARISON_OP = r'<=|>=|==|!=|<|>'
+t_COMPARISON_OP = r'<=|>=|==|!='
 t_AND_OP = r'&&'
 t_OR_OP = r'\|\|'
 t_NO_OP = r'!'
@@ -80,7 +79,7 @@ t_NO_OP = r'!'
 t_COLON = r':'
 t_COMMA = r','
 t_EQUAL = r'='
-t_PERIOD = r'.'
+t_PERIOD = r'\.'
 t_AMPERSAND = r'&'
 t_EXCLAMATION = r'!'
 t_SQUARE_BRACKETS_LEFT = r'\['
@@ -121,7 +120,6 @@ def t_NUMBER(token):
 
 def t_STRING(token):
     r'\"[^"\n]*\"'
-    token.value = token.value[1:-1]  # 去除双引号，保留字符串内容
     return token
 
 def t_ANNOTATION(token):

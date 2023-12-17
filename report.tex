@@ -55,7 +55,7 @@
 \textbf{词法分析工具: }
 \href{https://tastones.com/stackoverflow/python-language/python-lex-yacc/getting_started_with_ply/}{Lex-Yacc，PLY库}。
 
-\textbf{代码运行方法: }在官网下载并安装PLY库后，直接运行lex.py，默认的输入文件是huiwen.cpp，可以通过命令参数输入文件名。词法分析的token流会输出到output.txt中。
+\textbf{代码运行方法: }在官网下载并安装PLY库后，直接运行lex.py，默认的输入文件是huiwen.cpp，可以通过命令参数输入文件名。词法分析的token流会输出到output.txt中，格式为LexToken(Token,识别的字符串,行数（未更新）,位置)。
 
 \section{实现功能}
 \subsection{词法分析}
@@ -63,14 +63,20 @@
 
 2. 忽略“//”注释
 
-3. 识别数字、字符串等常量
+3. 识别数字（整数、16进制整数、浮点数）、字符串等常量
 
 4. 识别变量、函数名称
 
-5. 识别其他符号，如运算符、分隔符等
+5. 识别其他符号，如算数及逻辑运算符、分隔符、括号等
 
 \section{实现原理}
 \subsection{词法分析}
 词法分析运用了lex工具，通过定义token名称和对应的正则表达式，可识别出C语言中的各种token。并且通过定义保留字列表，避免C语言中的保留字被识别为变量名。
 
+\section{分工}
+杜婉晴：标识符，数字，保留字
+
+陈植：算数及逻辑运算符，字符串
+
+苟芳菲：其他符号
 \end{document}

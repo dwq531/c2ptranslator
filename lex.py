@@ -2,13 +2,38 @@ import ply.lex as lex
 import sys
 # Define the tokens
 tokens = (
-    'ID',   # 标识符
-    'NUMBER',    # 数字
-    'STRING',   # 字符串
-    'OP',   # 运算符
+    'ID',           # 标识符
+    'NUMBER',       # 数字
+    'STRING',       # 字符串
+    'OP',           # 运算符
     'SEMICOLON',    # 分号
-    # todo
+    'ELLIPSIS',     # 省略号
+    'COLON',        # 冒号
+    'COMMA',        # 逗号
+    'EQUAL',        # 等号
+    'PERIOD',       # 句点
+    'AMPERSAND',    # 与号
+    'EXCLAMATION',  # 感叹号
+    'SQUARE_BRACKETS_LEFT',   # 方括号
+    'SQUARE_BRACKETS_RIGHT',  # 方括号
+    'CURLY_BRACES_LEFT',      # 大括号
+    'CURLY_BRACES_RIGHT',     # 大括号
+    'TILDE',        # 波浪号
+    'PARENTHESES_LEFT',   # 括号
+    'PARENTHESES_RIGHT',  # 括号
+    'PLUS',         # 加号
+    'MINUS',        # 减号
+    'ASTERISK',     # 星号
+    'SLASH',        # 斜杠
+    'PERCENT',      # 百分号
+    'GREATER_THAN', # 大于号
+    'LESS_THAN',    # 小于号
+    'CARET',        # 异或符号
+    'PIPE',         # 竖线
+    'QUESTION_MARK', # 问号
+    'HASH',          # 井号
 )
+
 reversed = {
     'int': 'INT',
     'float': 'FLOAT',
@@ -36,7 +61,32 @@ reversed = {
 
 tokens += tuple(reversed.values())
 
+t_ELLIPSIS = r'\.\.\.'
 t_SEMICOLON = r';'
+t_COLON = r':'
+t_COMMA = r','
+t_EQUAL = r'='
+t_PERIOD = r'.'
+t_AMPERSAND = r'&'
+t_EXCLAMATION = r'!'
+t_SQUARE_BRACKETS_LEFT = r'\['
+t_SQUARE_BRACKETS_RIGHT = r'\]'
+t_CURLY_BRACES_LEFT = r'\{'
+t_CURLY_BRACES_RIGHT = r'\}'
+t_TILDE = r'~'
+t_PARENTHESES_LEFT = r'\('
+t_PARENTHESES_RIGHT = r'\)'
+t_PLUS = r'\+'
+t_MINUS = r'\-'
+t_ASTERISK = r'\*'
+t_SLASH = r'\\'
+t_PERCENT = r'%'
+t_GREATER_THAN = r'>'
+t_LESS_THAN = r'<'
+t_CARET = r'\^'
+t_PIPE = r'\|'
+t_QUESTION_MARK = r'\?'
+t_HASH = r'\#'
 
 # 变量名、函数名等标识符，除去保留字
 def t_ID(token):

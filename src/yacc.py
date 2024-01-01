@@ -21,7 +21,7 @@ def p_function_declaration(p):
 def p_declaration_specifiers(p):
     '''declaration_specifiers : CONST type_specifier
                               | type_specifier'''
-    print("declaration_specifiers->")
+    print("declaration_specifiers->",p[1])
 
 # 类型
 def p_type_specifier(p):
@@ -30,7 +30,8 @@ def p_type_specifier(p):
                       | CHAR
                       | FLOAT
                       | DOUBLE
-                      | LONG'''
+                      | LONG
+                      | BOOL'''
     print("type_specifier->",p[1])
 
 # 函数声明 : 指针 函数声明体
@@ -54,7 +55,7 @@ def p_parameter_list(p):
 
 # 参数声明 : 类型 参数声明体
 def p_parameter_declaration(p):
-    '''parameter_declaration : type_specifier declarator'''
+    '''parameter_declaration : declaration_specifiers declarator'''
     print("parameter_declaration->")
 
 # 参数声明体 : 指针 标识符 | 标识符[] | 标识符

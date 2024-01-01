@@ -61,9 +61,9 @@ def p_parameter_declaration(p):
 def p_declarator(p):
     '''declarator : ID
                 | ID SQUARE_BRACKETS_LEFT SQUARE_BRACKETS_RIGHT
-                | ID SQUARE_BRACKETS_LEFT NUMBER SQUARE_BRACKETS_RIGHT
+                | ID SQUARE_BRACKETS_LEFT expression SQUARE_BRACKETS_RIGHT
                 | ASTERISK ID'''
-    print("declarator->")
+    print("declarator->",p[1])
 
 # 函数体 : { (语句列表) }
 def p_compound_statement(p):
@@ -108,7 +108,7 @@ def p_init_declarator_list(p):
 def p_init_declarator(p):
     '''init_declarator : ID
                        | ID EQUAL expression
-                       | ID SQUARE_BRACKETS_LEFT NUMBER SQUARE_BRACKETS_RIGHT'''
+                       | ID SQUARE_BRACKETS_LEFT expression SQUARE_BRACKETS_RIGHT'''
     print("init_declarator->")
 
 # 表达式语句 : 表达式 ｜ 赋值表达式;
@@ -118,7 +118,8 @@ def p_expression_statement(p):
     
 # 赋值语句 : 标识符([表达式]) 赋值运算符 表达式
 def p_assignment_statement(p):
-    '''assignment_statement : ID assignment_operator expression SEMICOLON'''
+    '''assignment_statement : ID assignment_operator expression SEMICOLON
+                            | ID array_index assignment_operator expression SEMICOLON'''
     print("assignment_statement->")
 
 # 赋值运算符 : = | += | -= | *= | /= | %= | &= | ^= | |= | <<= | >>=
@@ -164,12 +165,13 @@ def p_unary_expression(p):
                         | primary_expression'''
     print("unary_expression->")
 
-# 前置单目运算符 : ++ | -- | * | ~ | !
+# 前置单目运算符 : ++ | -- | * | ~ | ! | &
 def p_prefix_unary_operator(p):
     '''prefix_unary_operator : UNARY_OP
                              | ASTERISK
                              | TILDE
-                             | EXCLAMATION'''
+                             | EXCLAMATION
+                             | AMPERSAND'''
     print("prefix_unary_operator->")
 
 # 后置单目运算符 : ++ | -- 
@@ -208,7 +210,7 @@ def p_call_parameter(p):
 # 数组访问 : 标识符[表达式]([表达式])
 def p_array_index(p):
     '''array_index :  array_index SQUARE_BRACKETS_LEFT expression SQUARE_BRACKETS_RIGHT
-                    | ID SQUARE_BRACKETS_LEFT expression SQUARE_BRACKETS_RIGHT'''
+                    | SQUARE_BRACKETS_LEFT expression SQUARE_BRACKETS_RIGHT'''
 
     print("array_index->")
 

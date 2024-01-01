@@ -31,7 +31,7 @@ def p_type_specifier(p):
                       | FLOAT
                       | DOUBLE
                       | LONG'''
-    print("type_specifier->")
+    print("type_specifier->",p[1])
 
 # 函数声明 : 指针 函数声明体
 def p_func_declarator(p):
@@ -44,7 +44,7 @@ def p_direct_declarator(p):
     '''direct_declarator ::= ID PARENTHESES_LEFT parameter_list PARENTHESES_RIGHT
 	                    | ID PARENTHESES_LEFT PARENTHESES_RIGHT
                         '''
-    print("direct_declarator->")
+    print("direct_declarator->",p[1])
 
 # 参数列表 : 参数列表,参数声明 | 参数声明
 def p_parameter_list(p):
@@ -59,10 +59,10 @@ def p_parameter_declaration(p):
 
 # 参数声明体 : 指针 标识符 | 标识符[] | 标识符
 def p_declarator(p):
-    '''declarator : direct_declarator
-                | direct_declarator SQUARE_BRACKETS_LEFT SQUARE_BRACKETS_RIGHT
-                | direct_declarator SQUARE_BRACKETS_LEFT NUMBER SQUARE_BRACKETS_RIGHT
-                | ASTERISK direct_declarator'''
+    '''declarator : ID
+                | ID SQUARE_BRACKETS_LEFT SQUARE_BRACKETS_RIGHT
+                | ID SQUARE_BRACKETS_LEFT NUMBER SQUARE_BRACKETS_RIGHT
+                | ASTERISK ID'''
     print("declarator->")
 
 # 函数体 : { (语句列表) }
@@ -104,24 +104,12 @@ def p_init_declarator_list(p):
 
 
 
-# 初始化声明 : 标识符([数]) | 标识符 = 初始值 ｜ 标识符[数] = [列表]
+# 初始化声明 : 标识符([数]) | 标识符 = 初始值 
 def p_init_declarator(p):
     '''init_declarator : ID
                        | ID EQUAL expression
-                       | ID SQUARE_BRACKETS_LEFT NUMBER SQUARE_BRACKETS_RIGHT
-                       | ID SQUARE_BRACKETS_LEFT NUMBER SQUARE_BRACKETS_RIGHT EQUAL list_initializer'''
+                       | ID SQUARE_BRACKETS_LEFT NUMBER SQUARE_BRACKETS_RIGHT'''
     print("init_declarator->")
-
-# 数组初始化 : [列表]
-def p_list_initializer(p):
-    '''list_initializer : SQUARE_BRACKETS_LEFT initializer_list SQUARE_BRACKETS_RIGHT'''
-    print("list_initializer->")
-
-# 初始化列表 : 初始化列表 , 初始值 | 初始值
-def p_initializer_list(p):
-    '''initializer_list : initializer_list COMMA NUMBER
-                        | NUMBER'''
-    print("initializer_list->")
 
 # 表达式语句 : 表达式 ｜ 赋值表达式;
 def p_expression_statement(p):

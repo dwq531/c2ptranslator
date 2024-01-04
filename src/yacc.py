@@ -215,19 +215,29 @@ def p_array_index(p):
 
     print("array_index->")
 
-# todo
+# 条件：IF (表达式) 语句 | IF (表达式) 语句 ELSE 语句 | SWITCH (表达式) 语句
 def p_selection_statement(p):
-    '''selection_statement : IF'''
+    '''selection_statement : IF PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement
+                           | IF PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement ELSE compound_statement
+                           | SWITCH PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement'''
     print("selection_statement->")
 
-# todo
+# 迭代：WHILE (表达式) 语句 | DO 语句 WHILE (表达式) | FOR (表达式;表达式;) 语句 | FOR (表达式;表达式;表达式) 语句
 def p_iteration_statement(p):
-    '''iteration_statement : WHILE'''
+    '''iteration_statement : WHILE PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement
+                           | DO compound_statement WHILE PARENTHESES_LEFT expression PARENTHESES_RIGHT
+                           | FOR PARENTHESES_LEFT expression_statement expression_statement PARENTHESES_RIGHT compound_statement
+                           | FOR PARENTHESES_LEFT expression_statement expression_statement expression PARENTHESES_RIGHT compound_statement'''
     print("iteration_statement->")
-
-# todo
+    
+# 跳转：RETURN 表达式 ; | BREAK ; | CONTINUE ; | GOTO 标识符 ; | GOTO * 表达式 ; | GOTO ** 表达式 ;
 def p_jump_statement(p):
-    '''jump_statement : RETURN'''
+    '''jump_statement : RETURN expression SEMICOLON
+                      | BREAK SEMICOLON
+                      | CONTINUE SEMICOLON
+                      | GOTO ID SEMICOLON
+                      | GOTO ASTERISK expression SEMICOLON
+                      | GOTO ASTERISK ASTERISK expression SEMICOLON'''
     print("jump_statement->")
 
 

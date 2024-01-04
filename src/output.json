@@ -1,0 +1,148 @@
+{
+  "type": "program",
+  "children": [
+    {
+      "type": "external_declaration",
+      "children": [
+        {
+          "type": "function_declaration",
+          "children": [
+            {
+              "type": "declaration_specifiers",
+              "children": [
+                {
+                  "type": "type_specifier",
+                  "children": [
+                    {
+                      "type": "int",
+                      "value": "int"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "func_declarator",
+              "children": [
+                {
+                  "type": "direct_declarator",
+                  "children": [
+                    {
+                      "type": "main",
+                      "value": "main"
+                    },
+                    {
+                      "type": "(",
+                      "value": "("
+                    },
+                    {
+                      "type": ")",
+                      "value": ")"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "compound_statement",
+              "children": [
+                {
+                  "type": "{",
+                  "value": "{"
+                },
+                {
+                  "type": "statement_list",
+                  "children": [
+                    {
+                      "type": "statement",
+                      "children": [
+                        {
+                          "type": "expression_statement",
+                          "children": [
+                            {
+                              "type": "expression",
+                              "children": [
+                                {
+                                  "type": "unary_expression",
+                                  "children": [
+                                    {
+                                      "type": "primary_expression",
+                                      "children": [
+                                        {
+                                          "type": "cout",
+                                          "value": "cout"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "<<",
+                                  "value": "<<"
+                                },
+                                {
+                                  "type": "expression",
+                                  "children": [
+                                    {
+                                      "type": "unary_expression",
+                                      "children": [
+                                        {
+                                          "type": "primary_expression",
+                                          "children": [
+                                            {
+                                              "type": "\"Hello World!\"",
+                                              "value": "\"Hello World!\""
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "<<",
+                                      "value": "<<"
+                                    },
+                                    {
+                                      "type": "expression",
+                                      "children": [
+                                        {
+                                          "type": "unary_expression",
+                                          "children": [
+                                            {
+                                              "type": "primary_expression",
+                                              "children": [
+                                                {
+                                                  "type": "endl",
+                                                  "value": "endl"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": ";",
+                              "value": ";"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "}",
+                  "value": "}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

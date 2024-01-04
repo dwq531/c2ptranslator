@@ -306,9 +306,9 @@ if __name__ == '__main__':
             with open(filename, 'r') as file:
                 code = file.read()
             result = parser.parse(code)
-            output_filename = "output.yaml"
+            output_filename = "output.json"
             with open(output_filename, 'w') as output_file:
-                output_file.write(result.to_yaml())
+                output_file.write(result.to_json())
             #print(result.to_yaml())
             #print(result)
         except EOFError:

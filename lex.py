@@ -62,6 +62,7 @@ reversed = {
     'include': 'INCLUDE',
     'false': 'FALSE',
     'true': 'TRUE',
+    'bool': 'BOOL',
 }
 
 tokens += tuple(reversed.values())
@@ -138,14 +139,14 @@ def t_error(token):
 # Build the lexer
 lexer = lex.lex()
 if __name__ == '__main__':
-    file_path = "./huiwen.cpp"
+    file_path = "C:\\Users\\12105\\Desktop\\hw\\c2ptranslator\\huiwen.cpp"
     arguments = sys.argv[1:]
     if len(arguments) > 0:
         file_path = arguments[0]
 
         
     
-    with open(file_path, "r") as file:
+    with open(file_path, "r",encoding='utf-8') as file:
         data = file.read()
 
     lexer.input(data)

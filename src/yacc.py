@@ -9,8 +9,20 @@ def p_program(p):
 # 声明可以是函数声明和变量等声明
 def p_external_declaration(p):
     '''external_declaration : function_declaration
-                            | declaration_statement'''   
+                            | declaration_statement
+                            | include_statement
+                            | namespace_statement'''   
     print("external_declaration->")
+
+# include语句
+def p_include_statement(p):
+    '''include_statement : HASH INCLUDE LESS_THAN ID GREATER_THAN'''
+    print("include_statement->")
+
+# using namespace语句
+def p_namespace_statement(p):
+    '''namespace_statement : ID ID ID SEMICOLON'''
+    print("namespace_statement->")
 
 # 函数声明：返回类型 声明 函数体 
 def p_function_declaration(p):
@@ -188,6 +200,8 @@ def p_primary_expression(p):
                           | PARENTHESES_LEFT expression PARENTHESES_RIGHT
                           | function_call
                           | ID array_index
+                          | TRUE
+                          | FALSE
                           '''
     print("primary_expression->")
 
@@ -230,16 +244,12 @@ def p_iteration_statement(p):
                            | FOR PARENTHESES_LEFT expression_statement expression_statement expression PARENTHESES_RIGHT compound_statement'''
     print("iteration_statement->")
     
-# 跳转：RETURN 表达式 ; | BREAK ; | CONTINUE ; | GOTO 标识符 ; | GOTO * 表达式 ; | GOTO ** 表达式 ;
+# 跳转：RETURN 表达式 ; | BREAK ; | CONTINUE ;
 def p_jump_statement(p):
     '''jump_statement : RETURN expression SEMICOLON
                       | BREAK SEMICOLON
-                      | CONTINUE SEMICOLON
-                      | GOTO ID SEMICOLON
-                      | GOTO ASTERISK expression SEMICOLON
-                      | GOTO ASTERISK ASTERISK expression SEMICOLON'''
+                      | CONTINUE SEMICOLON'''
     print("jump_statement->")
-
 
 # 错误处理
 def p_error(p):
@@ -253,7 +263,7 @@ if __name__ == '__main__':
     while True:
         try:
             filename = input("Enter the filename: ")
-            with open(filename, 'r') as file:
+            with open(filename, 'r', encoding='utf-8') as file:
                 code = file.read()
             result = parser.parse(code)
             print(result)

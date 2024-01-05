@@ -182,6 +182,7 @@ def p_assignment_operator(p):
 # 表达式 ： 运算单元 | 运算单元 运算符 表达式
 def p_expression(p):
     '''expression : unary_expression
+                  | unary_expression logical_operator expression
                   | unary_expression BINARY_OP expression
                   | unary_expression COMPARISON_OP expression
                   | unary_expression mutiplicative_operator expression
@@ -190,6 +191,13 @@ def p_expression(p):
     print("expression->") 
     p[0]=InternalNode('expression',p[1:])
     
+
+# 逻辑运算符 : && | ||
+def p_logical_operator(p):
+    '''logical_operator : AND_OP
+                        | OR_OP'''
+    print("logical_operator->")
+    p[0]=InternalNode('logical_operator',p[1:])
 
 # 乘法运算符 : * | / | %
 def p_mutiplicative_operator(p):
@@ -283,22 +291,25 @@ def p_array_index(p):
 
 # 条件：IF (表达式) 语句 | IF (表达式) 语句 ELSE 语句 | SWITCH (表达式) 语句
 def p_selection_statement(p):
-    '''selection_statement : IF PARENTHESES_LEFT logical_expression PARENTHESES_RIGHT compound_statement
-                           | IF PARENTHESES_LEFT logical_expression PARENTHESES_RIGHT compound_statement ELSE compound_statement
-                           | SWITCH PARENTHESES_LEFT logical_expression PARENTHESES_RIGHT CURLY_BRACES_LEFT case_list CURLY_BRACES_LEFT'''
+    '''selection_statement : IF PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement
+                           | IF PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement ELSE compound_statement
+                           | SWITCH PARENTHESES_LEFT expression PARENTHESES_RIGHT CURLY_BRACES_LEFT case_list CURLY_BRACES_LEFT'''
     print("selection_statement->")
     p[0]=InternalNode('selection_statement',p[1:])
 
 def p_case_list(p):
     '''case_list : case_list case
                  | case'''
+    p[0]=InternalNode('case_list',p[1:])
 
 def p_case(p):
     '''case : CASE constant_expression COLON statement_list
             | DEFAULT COLON statement_list'''
+    p[0]=InternalNode('case',p[1:])
 
 def p_constant_expression(p):
     '''constant_expression : NUMBER'''
+    p[0]=InternalNode('constant_expression',p[1:])
 
 
 # 迭代：WHILE (表达式) 语句 | DO 语句 WHILE (表达式) | FOR (表达式;表达式;) 语句 | FOR (表达式;表达式;表达式) 语句
@@ -318,15 +329,7 @@ def p_jump_statement(p):
     print("jump_statement->")
     p[0]=InternalNode('jump_statement',p[1:])
 
-# 判断语句：与或非
-def p_logical_expression(p):
-    '''logical_expression : logical_expression AND_OP logical_expression
-                          | logical_expression OR_OP logical_expression
-                          | NO_OP logical_expression
-                          | expression'''
-    print("logical_expression->")
-    p[0]=InternalNode('logical_expression',p[1:])
-    
+
 
 # 错误处理
 def p_error(p):

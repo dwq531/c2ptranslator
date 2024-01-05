@@ -281,9 +281,9 @@ def p_array_index(p):
 
 # 条件：IF (表达式) 语句 | IF (表达式) 语句 ELSE 语句 | SWITCH (表达式) 语句
 def p_selection_statement(p):
-    '''selection_statement : IF PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement
-                           | IF PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement ELSE compound_statement
-                           | SWITCH PARENTHESES_LEFT expression PARENTHESES_RIGHT LBRACE case_list RBRACE'''
+    '''selection_statement : IF PARENTHESES_LEFT logical_expression PARENTHESES_RIGHT compound_statement
+                           | IF PARENTHESES_LEFT logical_expression PARENTHESES_RIGHT compound_statement ELSE compound_statement
+                           | SWITCH PARENTHESES_LEFT logical_expression PARENTHESES_RIGHT CURLY_BRACES_LEFT case_list CURLY_BRACES_LEFT'''
     print("selection_statement->")
     p[0]=InternalNode('selection_statement',p[1:])
 
@@ -315,6 +315,16 @@ def p_jump_statement(p):
                       | CONTINUE SEMICOLON'''
     print("jump_statement->")
     p[0]=InternalNode('jump_statement',p[1:])
+
+# 判断语句：与或非
+def p_logical_expression(p):
+    '''logical_expression : logical_expression AND_OP logical_expression
+                          | logical_expression OR_OP logical_expression
+                          | NO_OP logical_expression
+                          | expression'''
+    print("logical_expression->")
+    p[0]=InternalNode('logical_expression',p[1:])
+    
 
 # 错误处理
 def p_error(p):

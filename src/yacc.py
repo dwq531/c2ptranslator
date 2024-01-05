@@ -23,11 +23,13 @@ def p_external_declaration(p):
 def p_include_statement(p):
     '''include_statement : HASH INCLUDE LESS_THAN ID GREATER_THAN'''
     print("include_statement->")
+    p[0]=InternalNode('include_statement',p[1:])
 
 # using namespace语句
 def p_namespace_statement(p):
     '''namespace_statement : ID ID ID SEMICOLON'''
     print("namespace_statement->")
+    p[0]=InternalNode('namespace_statement',p[1:])
 
 # 函数声明：返回类型 声明 函数体 
 def p_function_declaration(p):

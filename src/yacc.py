@@ -318,8 +318,8 @@ def p_constant_expression(p):
 def p_iteration_statement(p):
     '''iteration_statement : WHILE PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement
                            | DO compound_statement WHILE PARENTHESES_LEFT expression PARENTHESES_RIGHT
-                           | FOR PARENTHESES_LEFT expression_statement expression_statement PARENTHESES_RIGHT compound_statement
-                           | FOR PARENTHESES_LEFT expression_statement expression_statement expression PARENTHESES_RIGHT compound_statement'''
+                           | FOR PARENTHESES_LEFT declaration_statement expression_statement PARENTHESES_RIGHT compound_statement
+                           | FOR PARENTHESES_LEFT declaration_statement expression_statement expression PARENTHESES_RIGHT compound_statement'''
     print("iteration_statement->")
     p[0]=InternalNode('iteration_statement',p[1:])
     

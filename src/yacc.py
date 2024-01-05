@@ -283,9 +283,21 @@ def p_array_index(p):
 def p_selection_statement(p):
     '''selection_statement : IF PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement
                            | IF PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement ELSE compound_statement
-                           | SWITCH PARENTHESES_LEFT expression PARENTHESES_RIGHT compound_statement'''
+                           | SWITCH PARENTHESES_LEFT expression PARENTHESES_RIGHT LBRACE case_list RBRACE'''
     print("selection_statement->")
     p[0]=InternalNode('selection_statement',p[1:])
+
+def p_case_list(p):
+    '''case_list : case_list case
+                 | case'''
+
+def p_case(p):
+    '''case : CASE constant_expression COLON statement_list
+            | DEFAULT COLON statement_list'''
+
+def p_constant_expression(p):
+    '''constant_expression : NUMBER'''
+
 
 # 迭代：WHILE (表达式) 语句 | DO 语句 WHILE (表达式) | FOR (表达式;表达式;) 语句 | FOR (表达式;表达式;表达式) 语句
 def p_iteration_statement(p):

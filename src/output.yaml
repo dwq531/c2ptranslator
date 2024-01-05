@@ -1,0 +1,60 @@
+children:
+- children:
+  - children:
+    - children:
+      - children:
+        - type: int
+          value: int
+        type: type_specifier
+      type: declaration_specifiers
+    - children:
+      - children:
+        - type: main
+          value: main
+        - type: (
+          value: (
+        - type: )
+          value: )
+        type: direct_declarator
+      type: func_declarator
+    - children:
+      - type: '{'
+        value: '{'
+      - children:
+        - children:
+          - children:
+            - children:
+              - children:
+                - children:
+                  - type: int
+                    value: int
+                  type: type_specifier
+                type: declaration_specifiers
+              - children:
+                - children:
+                  - type: a
+                    value: a
+                  - type: '='
+                    value: '='
+                  - children:
+                    - children:
+                      - children:
+                        - type: '1'
+                          value: '1'
+                        type: primary_expression
+                      type: unary_expression
+                    type: expression
+                  type: init_declarator
+                type: init_declarator_list
+              type: declaration
+            - type: ;
+              value: ;
+            type: declaration_statement
+          type: statement
+        type: statement_list
+      - type: '}'
+        value: '}'
+      type: compound_statement
+    type: function_declaration
+  type: external_declaration
+type: program

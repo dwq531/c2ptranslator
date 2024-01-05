@@ -195,7 +195,9 @@ def p_expression(p):
 # 逻辑运算符 : && | ||
 def p_logical_operator(p):
     '''logical_operator : AND_OP
-                        | OR_OP'''
+                        | OR_OP
+                        | GREATER_THAN
+                        | LESS_THAN'''
     print("logical_operator->")
     p[0]=InternalNode('logical_operator',p[1:])
 

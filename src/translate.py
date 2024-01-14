@@ -129,6 +129,16 @@ def trans_iteration(node):
         if isinstance(node.children[4],InternalNode):
             inner += trans_expression(node.children[4])# 要用不带换行的版本，之后改
         code.append(inner)
+    elif node.children[0].value == "while":
+        '''
+        while 表达式:
+            循环体
+        '''
+        code.append("while")
+        code += trans_expression(node.children[2])# 要用不带换行的版本，之后改
+        code.append(":")
+        code.append("\n")
+        code.append(trans_compound(node.children[-1]))
     return code
 
 # jump_statement

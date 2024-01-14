@@ -40,11 +40,7 @@ def trans_function(node):
             code.append("\n")
         else:
             # compound_statement，缩进+1
-            statment_list = child.children[1]
-            if statment_list.key == "statement_list":
-                code.append(trans_statement_list(statment_list))
-            else:
-                code.append(['pass','\n'])
+            code.append(trans_compound(child))
     return code
 
 # parameter_list
@@ -60,6 +56,17 @@ def trans_parameter_list(node):
                 code.append(declarator.children[0].value)   
         else:
             code.append(child.value)               
+    return code
+
+# compound_statement
+def trans_compound(node):
+    code = []
+    statment_list = node.children[1]
+    if statment_list.key == "statement_list":
+        code += trans_statement_list(statment_list)
+    else:
+        code.append("pass")
+        code.append("\n")
     return code
 
 # statement_list
@@ -103,8 +110,26 @@ def trans_selection(node):
 
 # iteration_statement
 def trans_iteration(node):
-    # todo
-    return []
+    code = []
+    if node.children[0].value == "for":
+        '''
+        初始化表达式
+        while 条件表达式:
+            循环体
+            更新表达式
+        '''
+        code += trans_declaration(node.children[2]) 
+        code.append("\n")
+        code.append("while")
+        code += trans_expression(node.children[3])# 要用不带换行的版本，之后改
+        code.append(":")
+        code.append("\n")
+        inner = []
+        inner += trans_compound(node.children[-1])
+        if isinstance(node.children[4],InternalNode):
+            inner += trans_expression(node.children[4])# 要用不带换行的版本，之后改
+        code.append(inner)
+    return code
 
 # jump_statement
 def trans_jump(node):
@@ -123,6 +148,7 @@ def format(code,tab=0):
     for word in code:
         if isinstance(word, list):
             # 增加缩进
+            out = out.rstrip(" \t")
             out += format(word,tab+1)
         else:
             out += word

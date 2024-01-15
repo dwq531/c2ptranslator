@@ -92,16 +92,169 @@ def trans_statement_list(node):
     return code
 
 
-
 # declaration_statement
 def trans_declaration(node):
     # todo
     return []
 
+
+
+
+
 # expression_statement
+def trans_expression_statement(node):
+    # todo
+    # expression_statement : expression SEMICOLON
+    child = node.children[0]
+    code = trans_expression(child)
+    return code
+
+# expression
 def trans_expression(node):
+    #todo
+    code = []
+    for child in node.children:
+        if child.key=='unary_expression':
+            code += trans_unary_expression(child)
+        elif child.key=='logical_operator':
+            code += trans_logical_operator(child)
+        elif child.key=='BINARY_OP':
+            code.append(child.value)
+        elif child.key=='COMPARISOM_OP':
+            code.append(child.value)
+        elif child.key=='multiplicative_operator':
+            code += trans_multiplicative_operator(child)
+        elif child.key=='additive_operator':
+            code += trans_additive_operator(child)
+        elif child.key=='bitwise_operator':
+            code += trans_bitwise_operator(child)
+        elif child.key=='expression':
+            code += trans_expression(child)
+    return code
+
+# unary_expression
+def trans_unary_expression(node):
+    # todo
+    code = []
+    for child in node.children:
+        if(child.key=='primary_expression'):
+            code += trans_primary_expression(child)
+        elif(child.key=='postfix_unary_operator'):
+            code += trans_postfix_unary_operator(child)
+        elif(child.key=='prefix_unary_operator'):
+            code += trans_prefix_unary_operator(child)
+    return code
+
+# logical_operator
+def trans_logical_operator(node):
+    # todo
+    code = []
+    code.append(node.children[0].value)
+    return code
+
+# mutiplicative_operator
+def trans_mutiplicative_operator(node):
+    # todo
+    code = []
+    code.append(node.children[0].value)
+    return code
+
+# additive_operator
+def trans_additive_operator(node):
+    # todo
+    code = []
+    code.append(node.children[0].value)
+    return []
+
+# bitwise_operator
+def trans_bitwise_operator(node):
+    # todo
+    code = []
+    code.append(node.children[0].value)
+    return []
+
+
+# primary_expression
+def trans_primary_expression(node):
+    # todo
+    code = []
+    for child in node.children:
+        if child.key=='expression':
+            code += trans_expression(child)
+        elif child.key=='fucntion_call':
+            code += trans_function_call(child)
+        elif child.key=='array_index':
+            code += trans_array_index(child)
+        else:
+            code.append(child.value)
+    return code
+
+# postfix_unary_operator
+def trans_postfix_unary_operator(node):
+    # todo
+    code = []
+    code.append(node.children[0].value)
+    return []
+
+# prefix_unary_operator
+def trans_prefix_unary_operator(node):
+    # todo
+    code = []
+    code.append(node.children[0].value)
+    return []
+
+# constant_expression
+def trans_constant_expression(node):
+    # todo
+    code = []
+    code.append(node.children[0].value)
+    return node.children[0].value
+
+
+###################终于意识到有的地方要转化了，，，mark一下debug的位置#####################
+# function_call
+def trans_function_call(node):
     # todo
     return []
+
+# array_index
+def trans_array_index(node):
+    # todo
+    code = []
+    for child in node.children:
+        if child.key=='array_index':
+            code += trans_array_index(child)
+        elif child.key=='expression':
+            code += trans_expression(child)
+        else:
+            code.append(child.value)
+    return code
+
+# call_parameter_list
+def trans_call_parameter_list(node):
+    # todo
+    return []
+
+# call_parameter
+def trans_call_parameter(node):
+    # todo
+    return []
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # selection_statement
 def trans_selection(node):
@@ -144,7 +297,7 @@ def trans_iteration(node):
 # jump_statement
 def trans_jump(node):
     # todo
-    return []
+    return node.children[0].value
 
 # assignment_statement
 def trans_assignment(node):

@@ -136,13 +136,23 @@ def trans_expression(node):
 def trans_unary_expression(node):
     # todo
     code = []
-    for child in node.children:
-        if(child.key=='primary_expression'):
-            code += trans_primary_expression(child)
-        elif(child.key=='postfix_unary_operator'):
-            code += trans_postfix_unary_operator(child)
-        elif(child.key=='prefix_unary_operator'):
-            code += trans_prefix_unary_operator(child)
+    if(len(node.children)==1):
+        code += trans_primary_expression(node.children[0])
+    else:
+        ## 前置
+        if node.children[0].key=='prefix_unary_operator':
+            code = trans_primary_expression(node.children[1])
+            if node.children[0].value=='++':
+                code = code + '+=1'
+            elif node.children[0].value=='--':
+                code = code + '-=1'
+        ## 后置
+        else:
+            code = trans_primary_expression(node.children[0])
+            if node.children[1].value=='++':
+                code = code + '+=1'
+            elif node.children[1].value=='--':
+                code = code + '-=1'
     return code
 
 # logical_operator
@@ -164,15 +174,14 @@ def trans_additive_operator(node):
     # todo
     code = []
     code.append(node.children[0].value)
-    return []
+    return code
 
 # bitwise_operator
 def trans_bitwise_operator(node):
     # todo
     code = []
     code.append(node.children[0].value)
-    return []
-
+    return code
 
 # primary_expression
 def trans_primary_expression(node):
@@ -189,33 +198,23 @@ def trans_primary_expression(node):
             code.append(child.value)
     return code
 
-# postfix_unary_operator
-def trans_postfix_unary_operator(node):
-    # todo
-    code = []
-    code.append(node.children[0].value)
-    return []
-
-# prefix_unary_operator
-def trans_prefix_unary_operator(node):
-    # todo
-    code = []
-    code.append(node.children[0].value)
-    return []
-
 # constant_expression
 def trans_constant_expression(node):
     # todo
     code = []
     code.append(node.children[0].value)
-    return node.children[0].value
+    return code
 
-
-###################终于意识到有的地方要转化了，，，mark一下debug的位置#####################
 # function_call
 def trans_function_call(node):
     # todo
-    return []
+    code = []
+    for child in node.children:
+        if child.key=='call_parameter_list':
+            code+=trans_call_parameter_list(child)
+        else:
+            code.append(child.value)
+    return code
 
 # array_index
 def trans_array_index(node):
@@ -233,12 +232,22 @@ def trans_array_index(node):
 # call_parameter_list
 def trans_call_parameter_list(node):
     # todo
-    return []
+    code = []
+    for child in node.children:
+        if child.key=='call_parameter_list':
+            code +=trans_call_parameter_list(child)
+        elif child.key=='call_parameter':
+            code +=trans_call_parameter(child)
+        else:
+            code.append(child.value)
+    return code
 
 # call_parameter
 def trans_call_parameter(node):
     # todo
-    return []
+    code = []
+    code.append(node.children[0].value)
+    return code
 
 
 

@@ -148,8 +148,32 @@ def trans_jump(node):
 
 # assignment_statement
 def trans_assignment(node):
-    # todo
-    return []
+    code = []
+    for child in node.children:
+        if isinstance(child,ExternalNode):
+            if child.value == ";":
+                code.append("\n")
+            else:
+                code.append(child.value)
+        elif child.key == "assignment_operator":
+            code.append(child.children[0].value)
+        elif child.key == "expression":
+            code.append(trans_expression(child))# 要用不带换行的版本，之后改
+        elif child.key == "array_index":
+            code += trans_array(child)    
+    return code
+
+# array_index
+def trans_array(node):
+    code = []
+    for child in node.children:
+        if isinstance(child,ExternalNode):
+            code.append(child.value)
+        elif child.key == "array_index":
+            code += trans_array(child)
+        elif child.key == "expression":
+            code += trans_expression(child)# 要用不带换行的版本，之后改
+    return code
 
 # 规范风格和缩进，生成python代码
 def format(code,tab=0):

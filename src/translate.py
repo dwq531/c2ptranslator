@@ -30,14 +30,19 @@ def trans_function(node):
         elif child.key == "func_declarator":
             # func_declarator
             direct_declarator = child.children[-1]
-            code.append(direct_declarator.children[0].value)
-            code.append("(")
-            # parameter_list
-            parameter_list = direct_declarator.children[2]
-            if parameter_list.key == "parameter_list":
-                code += trans_parameter_list(parameter_list)
-            code.append("):")
-            code.append("\n")
+            if direct_declarator.children[0].value == "main":
+                code.pop() # 去掉def
+                code += ["if","__name__","==","'__main__'",":"]
+                code.append("\n")
+            else:
+                code.append(direct_declarator.children[0].value)
+                code.append("(")
+                # parameter_list
+                parameter_list = direct_declarator.children[2]
+                if parameter_list.key == "parameter_list":
+                    code += trans_parameter_list(parameter_list)
+                code.append("):")
+                code.append("\n")
         else:
             # compound_statement，缩进+1
             code.append(trans_compound(child))

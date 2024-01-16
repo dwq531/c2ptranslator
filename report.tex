@@ -55,7 +55,7 @@
 \textbf{词法及语法分析工具: }
 \href{https://tastones.com/stackoverflow/python-language/python-lex-yacc/getting_started_with_ply/}{Lex-Yacc，PLY库}。
 
-\textbf{代码运行方法: }在官网下载并安装PLY库后，运行yacc.py，根据提示输入C语言代码文件路径，即可输出语法树到output.json。
+\textbf{代码运行方法: }在官网下载并安装PLY库后，运行translate.py，根据提示输入C语言文件名，翻译结果输出在result.py。
 
 \section{实现功能}
 \subsection{词法分析}
@@ -74,6 +74,15 @@
 
 
 2. 构建语法分析树，输出为json格式。
+
+\subsection{Python代码生成}
+1. 翻译函数声明和定义，自动识别C语言的main函数并翻译为Python程序的入口，函数体内语句能够正确缩进。
+
+2. 翻译include语句，替换为python所需的特定import语句。
+
+3. 翻译C语言的变量声明的定义语句、赋值语句、算数及逻辑运算、if-else和switch-case控制语句、for和while循环语句、return跳转语句等。
+
+4. 翻译C语言中的库函数scanf、printf和strlen，替换为python中的input、print和len函数。
 
 
 \section{实现原理}
@@ -98,11 +107,25 @@
 
 2. 定义语法树的构建方法，通过递归的方法，将token流转化为语法树。
 
+\subsection{Python代码生成}
+目标代码生成部分使用了语法制导的语义处理技术，每个节点用综合属性code来记录该节点及其子树的Python代码，通过递归的方式一遍求出翻译结果。
+我们使用code的列表嵌套层数来记录缩进层数，在翻译时遇到需要缩进的代码块时，会将该节点的code列表本身作为一个元素加入到父节点的code列表中，代表缩进层数加一。
+code生成完毕后，我们再进行代码风格优化和缩进处理，在字符串间添加空格，并根据嵌套层数添加缩进。
 
+函数定义：去掉函数和参数的类型，加上“def”，遍历函数体中的语句节点并调用对应的翻译函数，把函数体作为一个列表元素加入code中以增加缩进。需要特殊判断函数名是否为main，若是则替换为“if \_\_name\_\_ == '\_\_main\_\_':”语句。
+
+迭代语句：统一翻译成while的形式。对于for循环，翻译成如下形式：
+\begin{lstlisting}[language=Python]
+    初始化表达式
+    while 条件表达式:
+        循环体
+        更新表达式
+\end{lstlisting}
+此处要将循环体和更新表达式整体作为一个元素加入code中以增加缩进。对于while循环，直接去掉括号即可。
 \section{分工}
-杜婉晴：标识符，数字，保留字；定义文法
+杜婉晴：标识符，数字，保留字；定义文法；翻译函数定义、迭代语句、赋值语句
 
-陈植：算数及逻辑运算符，字符串；构建语法分析树
+陈植：算数及逻辑运算符，字符串；构建语法分析树；翻译表达式语句、跳转语句
 
-苟芳菲：其他符号；定义文法
+苟芳菲：其他符号；定义文法；翻译变量定义与声明语句、选择语句
 \end{document}

@@ -295,13 +295,13 @@ def trans_iteration(node):
         code += trans_declaration(node.children[2]) 
         code.append("\n")
         code.append("while")
-        code += trans_expression(node.children[3])# 要用不带换行的版本，之后改
+        code += trans_expression(node.children[3])
         code.append(":")
         code.append("\n")
         inner = []
         inner += trans_compound(node.children[-1])
         if isinstance(node.children[4],InternalNode):
-            inner += trans_expression(node.children[4])# 要用不带换行的版本，之后改
+            inner += trans_expression(node.children[4])
         code.append(inner)
     elif node.children[0].value == "while":
         '''
@@ -309,7 +309,7 @@ def trans_iteration(node):
             循环体
         '''
         code.append("while")
-        code += trans_expression(node.children[2])# 要用不带换行的版本，之后改
+        code += trans_expression(node.children[2])
         code.append(":")
         code.append("\n")
         code.append(trans_compound(node.children[-1]))
@@ -331,7 +331,7 @@ def trans_assignment(node):
         elif child.key == "assignment_operator":
             code.append(child.children[0].value)
         elif child.key == "expression":
-            code.append(trans_expression(child))# 要用不带换行的版本，之后改
+            code.append(trans_expression(child))
         elif child.key == "array_index":
             code += trans_array(child)    
     return code
@@ -345,7 +345,7 @@ def trans_array(node):
         elif child.key == "array_index":
             code += trans_array(child)
         elif child.key == "expression":
-            code += trans_expression(child)# 要用不带换行的版本，之后改
+            code += trans_expression(child)
     return code
 
 # 规范风格和缩进，生成python代码
@@ -384,6 +384,8 @@ if __name__ == '__main__':
         print(code)
         # 规范风格和缩进
         out = format(code)
+        # 添加库函数
+        out = "from include import *\n" + out
         with open("result.py", 'w') as result_file:
             result_file.write(out)
         

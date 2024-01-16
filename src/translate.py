@@ -120,7 +120,7 @@ def trans_expression(node):
             code += trans_logical_operator(child)
         elif child.key=='BINARY_OP':
             code.append(child.value)
-        elif child.key=='COMPARISOM_OP':
+        elif child.key=='COMPARISON_OP':
             code.append(child.value)
         elif child.key=='multiplicative_operator':
             code += trans_multiplicative_operator(child)
@@ -142,17 +142,17 @@ def trans_unary_expression(node):
         ## 前置
         if node.children[0].key=='prefix_unary_operator':
             code = trans_primary_expression(node.children[1])
-            if node.children[0].value=='++':
-                code = code + '+=1'
-            elif node.children[0].value=='--':
-                code = code + '-=1'
+            if node.children[0].children[0].value=='++':
+                code = code + ["+=1"]
+            elif node.children[0].children[0].value=='--':
+                code = code + ["-=1"]
         ## 后置
         else:
             code = trans_primary_expression(node.children[0])
-            if node.children[1].value=='++':
-                code = code + '+=1'
-            elif node.children[1].value=='--':
-                code = code + '-=1'
+            if node.children[1].children[0].value=='++':
+                code = code + ["+=1"]
+            elif node.children[1].children[0].value=='--':
+                code = code + ["-=1"]
     return code
 
 # logical_operator
@@ -162,8 +162,8 @@ def trans_logical_operator(node):
     code.append(node.children[0].value)
     return code
 
-# mutiplicative_operator
-def trans_mutiplicative_operator(node):
+# multiplicative_operator
+def trans_multiplicative_operator(node):
     # todo
     code = []
     code.append(node.children[0].value)

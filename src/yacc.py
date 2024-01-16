@@ -239,7 +239,7 @@ def p_expression(p):
                   | unary_expression logical_operator expression
                   | unary_expression BINARY_OP expression
                   | unary_expression COMPARISON_OP expression
-                  | unary_expression mutiplicative_operator expression
+                  | unary_expression multiplicative_operator expression
                   | unary_expression additive_operator expression
                   | unary_expression bitwise_operator expression'''
     p[0]=InternalNode('expression',p[1:])
@@ -268,12 +268,12 @@ def p_logical_operator(p):
         p[0].children[0]=ExternalNode('LESS_THAN',p[1])
 
 # 乘法运算符 : * | / | %
-def p_mutiplicative_operator(p):
-    '''mutiplicative_operator : ASTERISK
+def p_multiplicative_operator(p):
+    '''multiplicative_operator : ASTERISK
                               | SLASH
                               | PERCENT'''
-    p[0]=InternalNode('mutiplicative_operator',p[1:])
-    if(p.slcie[1].type=='ASTERISK'):
+    p[0]=InternalNode('multiplicative_operator',p[1:])
+    if(p.slice[1].type=='ASTERISK'):
         p[0].children[0]=ExternalNode('ASTERISK',p[1])
     elif(p.slice[1].type =='SLASH'):
         p[0].children[0]=ExternalNode('SLASH',p[1])

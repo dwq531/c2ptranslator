@@ -205,6 +205,10 @@ def trans_primary_expression(node):
             code += trans_function_call(child)
         elif child.key=='array_index':
             code += trans_array_index(child)
+        elif child.value=='true':
+            code.append('True')
+        elif child.value=='false':
+            code.append('False')
         else:
             #print(child.key)
             code.append(child.value)
@@ -317,7 +321,7 @@ def trans_iteration(node):
 
 # jump_statement
 def trans_jump(node):
-    return [node.children[0].value,"\n"]
+    return [node.children[0].value,trans_expression(node.children[1]),"\n"]
 
 # assignment_statement
 def trans_assignment(node):

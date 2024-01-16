@@ -164,7 +164,12 @@ def trans_unary_expression(node):
 def trans_logical_operator(node):
     # todo
     code = []
-    code.append(node.children[0].value)
+    if node.children[0].value=='&&':
+        code.append('and')
+    elif node.children[0].value=='||':
+        code.append('or')
+    else:
+        code.append(node.children[0].value)
     return code
 
 # multiplicative_operator

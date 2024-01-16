@@ -122,7 +122,7 @@ def p_declarator(p):
     elif (len(p) == 5):
         p[0].children[0] = ExternalNode('ID', p[1])
         p[0].children[1] = ExternalNode('SQUARE_BRACKETS_LEFT', p[2])
-        p[0].children[2] = p[3]  # Assuming expression produces an AST
+        #p[0].children[2] = p[3]  # Assuming expression produces an AST
         p[0].children[3] = ExternalNode('SQUARE_BRACKETS_RIGHT', p[4])
     elif (len(p) == 3):
         p[0].children[0] = ExternalNode('ASTERISK', p[1])
@@ -136,7 +136,7 @@ def p_compound_statement(p):
     p[0]=InternalNode('compound_statement',p[1:])
     p[0].children[0]=ExternalNode('CURLY_BRACES_LEFT',p[1])
     if(p.slice[2].type =="statement_list"):
-        p[0].children[1]=p[2]
+        #p[0].children[1]=p[2]
         p[0].children[2]=ExternalNode('CURLY_BRACES_RIGHT',p[3])
     else:
         p[0].children[1]=ExternalNode('CURLY_BRACES_RIGHT',p[2])
@@ -192,10 +192,10 @@ def p_init_declarator(p):
     p[0].children[0] = ExternalNode('ID', p[1])
     if len(p) == 4 and p.slice[2].type == 'EQUAL':
         p[0].children[1] = ExternalNode('EQUAL', p[2])
-        p[0].children[2] = p[3]
+        #p[0].children[2] = p[3]
     elif len(p) == 5 and p.slice[2].type == 'SQUARE_BRACKETS_LEFT':
         p[0].children[1] = ExternalNode('SQUARE_BRACKETS_LEFT', p[2])
-        p[0].children[2] = p[3]
+        #p[0].children[2] = p[3]
         p[0].children[3] = ExternalNode('SQUARE_BRACKETS_RIGHT', p[4])
 
 
@@ -212,12 +212,12 @@ def p_assignment_statement(p):
                             | ID array_index assignment_operator expression SEMICOLON'''
     p[0]=InternalNode('assignment_statement',p[1:])
     p[0].children[0]=ExternalNode('ID',p[1])
-    p[0].children[1]=p[2]
-    p[0].children[2]=p[3]
+    #p[0].children[1]=p[2]
+    #p[0].children[2]=p[3]
     if len(p)==5:
         p[0].children[3]=ExternalNode('SEMICOLON',p[4])
     else:
-        p[0].children[3]=p[4]
+        #p[0].children[3]=p[4]
         p[0].children[4]=ExternalNode('SEMICOLON',p[5])
 
 
@@ -356,7 +356,7 @@ def p_primary_expression(p):
         p[0].children[0]=ExternalNode('STRING',p[1])
     elif(p.slice[1].type =='PARENTHESES_LEFT'):
         p[0].children[0]=ExternalNode('PARENTHESES_LEFT',p[1])
-        p[0].children[1]=p[2]
+        #p[0].children[1]=p[2]
         p[0].children[2]=ExternalNode('PARENTHESES_RIGHT',p[3])
     elif(p.slice[1].type =='TRUE'):
         p[0].children[0]=ExternalNode('TRUE',p[1])
@@ -397,13 +397,13 @@ def p_array_index(p):
 
     p[0]=InternalNode('array_index',p[1:])
     if(len(p)==5):
-        p[0].children[0]=p[1]
+        #p[0].children[0]=p[1]
         p[0].children[1]=ExternalNode('SQUARE_BRACKETS_LEFT',p[2])
-        p[0].children[2]=p[3]
+        #p[0].children[2]=p[3]
         p[0].children[3]=ExternalNode('SQUARE_BRACKETS_RIGHT',p[4])
     else:
         p[0].children[0]=ExternalNode('SQUARE_BRACKETS_LEFT',p[1])
-        p[0].children[1]=p[2]
+        #p[0].children[1]=p[2]
         p[0].children[2]=ExternalNode('SQUARE_BRACKETS_RIGHT',p[3])
 
 # 条件：IF (表达式) 语句 | IF (表达式) 语句 ELSE 语句 | SWITCH (表达式) 语句
@@ -415,18 +415,18 @@ def p_selection_statement(p):
     if(p.slice[1].type =='IF'):
         p[0].children[0]=ExternalNode('IF',p[1])
         p[0].children[1]=ExternalNode('PARENTHESES_LEFT',p[2])
-        p[0].children[2]=p[3]
+        #p[0].children[2]=p[3]
         p[0].children[3]=ExternalNode('PARENTHESES_RIGHT',p[4])
-        p[0].children[4]=p[5]
+        #p[0].children[4]=p[5]
         if(len(p)==8):
             p[0].children[5]=ExternalNode('ELSE',p[6])
-            p[0].children[6]=p[7]
+            #p[0].children[6]=p[7]
     elif(p.slice[1].type =='SWITCH'):
         p[0].children[0]=ExternalNode('SWITCH',p[1])
         p[0].children[1]=ExternalNode('PARENTHESES_LEFT',p[2])
-        p[0].children[2]=p[3]
+        #p[0].children[2]=p[3]
         p[0].children[3]=ExternalNode('PARENTHESES_RIGHT',p[4])
-        p[0].children[4]=p[5]
+        #p[0].children[4]=p[5]
 
 def p_case_list(p):
     '''case_list : case_list case
@@ -439,13 +439,13 @@ def p_case(p):
     p[0]=InternalNode('case',p[1:])
     if(p.slice[1].type =='CASE'):
         p[0].children[0]=ExternalNode('CASE',p[1])
-        p[0].children[1]=p[2]
+        #p[0].children[1]=p[2]
         p[0].children[2]=ExternalNode('COLON',p[3])
-        p[0].children[3]=p[4]
+        #p[0].children[3]=p[4]
     elif(p.slice[1].type =='DEFAULT'):
         p[0].children[0]=ExternalNode('DEFAULT',p[1])
         p[0].children[1]=ExternalNode('COLON',p[2])
-        p[0].children[2]=p[3]
+        #p[0].children[2]=p[3]
 
 def p_constant_expression(p):
     '''constant_expression : NUMBER'''
@@ -463,28 +463,28 @@ def p_iteration_statement(p):
     if(p.slice[1].type =='WHILE'):
         p[0].children[0]=ExternalNode('WHILE',p[1])
         p[0].children[1]=ExternalNode('PARENTHESES_LEFT',p[2])
-        p[0].children[2]=p[3]
+        #p[0].children[2]=p[3]
         p[0].children[3]=ExternalNode('PARENTHESES_RIGHT',p[4])
-        p[0].children[4]=p[5]
+        #p[0].children[4]=p[5]
     elif(p.slice[1].type =='DO'):
         p[0].children[0]=ExternalNode('DO',p[1])
-        p[0].children[1]=p[2]
+        #p[0].children[1]=p[2]
         p[0].children[2]=ExternalNode('WHILE',p[3])
         p[0].children[3]=ExternalNode('PARENTHESES_LEFT',p[4])
-        p[0].children[4]=p[5]
+        #p[0].children[4]=p[5]
         p[0].children[5]=ExternalNode('PARENTHESES_RIGHT',p[6])
     elif(p.slice[1].type =='FOR'):
         p[0].children[0]=ExternalNode('FOR',p[1])
         p[0].children[1]=ExternalNode('PARENTHESES_LEFT',p[2])
-        p[0].children[2]=p[3]
-        p[0].children[3]=p[4]
+        #p[0].children[2]=p[3]
+        #p[0].children[3]=p[4]
         if(len(p)==8):
             p[0].children[4]=ExternalNode('PARENTHESES_RIGHT',p[5])
-            p[0].children[5]=p[6]
+            #p[0].children[5]=p[6]
         else:
-            p[0].children[4]=p[5]
+            #p[0].children[4]=p[5]
             p[0].children[5]=ExternalNode('PARENTHESES_RIGHT',p[6])
-            p[0].children[6]=p[7]      
+            #p[0].children[6]=p[7]      
 
 
     
@@ -496,7 +496,7 @@ def p_jump_statement(p):
     p[0]=InternalNode('jump_statement',p[1:])
     if(p.slice[1].type =='RETURN'):
         p[0].children[0]=ExternalNode('RETURN',p[1])
-        p[0].children[1]=p[2]
+        #p[0].children[1]=p[2]
         p[0].children[2]=ExternalNode('SEMICOLON',p[3])
     elif(p.slice[1].type =='BREAK'):
         p[0].children[0]=ExternalNode('BREAK',p[1])

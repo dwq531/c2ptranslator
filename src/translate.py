@@ -200,11 +200,12 @@ def trans_primary_expression(node):
     for child in node.children:
         if child.key=='expression':
             code += trans_expression(child)
-        elif child.key=='fucntion_call':
+        elif child.key=='function_call':
             code += trans_function_call(child)
         elif child.key=='array_index':
             code += trans_array_index(child)
         else:
+            #print(child.key)
             code.append(child.value)
     return code
 
@@ -256,7 +257,7 @@ def trans_call_parameter_list(node):
 def trans_call_parameter(node):
     # todo
     code = []
-    code.append(node.children[0].value)
+    code += trans_expression(node.children[0])
     return code
 
 

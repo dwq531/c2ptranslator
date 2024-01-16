@@ -85,7 +85,7 @@ def trans_statement_list(node):
             if grandchild.key == "declaration_statement":
                 code += trans_declaration(grandchild)
             elif grandchild.key == "expression_statement":
-                code += trans_expression(grandchild)
+                code += trans_expression_statement(grandchild)
             elif grandchild.key == "selection_statement":
                 code += trans_selection(grandchild)
             elif grandchild.key == "iteration_statement":
@@ -112,6 +112,7 @@ def trans_expression_statement(node):
     # expression_statement : expression SEMICOLON
     child = node.children[0]
     code = trans_expression(child)
+    code.append("\n")
     return code
 
 # expression
@@ -316,8 +317,7 @@ def trans_iteration(node):
 
 # jump_statement
 def trans_jump(node):
-    # todo
-    return node.children[0].value
+    return [node.children[0].value,"\n"]
 
 # assignment_statement
 def trans_assignment(node):
@@ -357,6 +357,7 @@ def format(code,tab=0):
             # 增加缩进
             out = out.rstrip(" \t")
             out += format(word,tab+1)
+            out += "\t" * tab
         else:
             out += word
             # 换行后缩进

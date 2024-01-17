@@ -4,3 +4,5 @@ def printf(str):
 def scanf(str, test_str):
 	test_str = input()
 	return test_str
+def strlen(str):
+    return len(str)

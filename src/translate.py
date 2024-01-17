@@ -83,7 +83,7 @@ def trans_statement_list(node):
         else:
             grandchild = child.children[0]
             if grandchild.key == "declaration_statement":
-                code += trans_declaration(grandchild)
+                code += trans_declaration_statement(grandchild)
             elif grandchild.key == "expression_statement":
                 code += trans_expression_statement(grandchild)
             elif grandchild.key == "selection_statement":
@@ -111,7 +111,7 @@ def trans_declaration(node):
     for child in node.children:
         if child.key == "declaration_specifiers":
             # declaration_specifiers，不需要类型
-            code.append("")
+            pass
         elif child.key == "init_declarator_list":
             code += trans_init_declarator_list(child)
     return code
@@ -131,7 +131,17 @@ def trans_init_declarator_list(node):
 # init_declarator
 def trans_init_declarator(node):
     code = []
-    code += trans_expression(node.children[0])
+    if len(node.children)==4:
+        size = trans_expression(node.children[2])
+        return [node.children[0].value,"=","[0 for _ in range("]+size+[")]"]
+    elif len(node.children)==1:
+        # 变量初始化
+        return [node.children[0].value,"=","None"]
+    for child in node.children:
+        if isinstance(child,ExternalNode):
+            code.append(child.value)
+        else:
+            code += trans_expression(child)
     return code
 
 # expression_statement
@@ -253,6 +263,37 @@ def trans_constant_expression(node):
 def trans_function_call(node):
     # todo
     code = []
+    if node.children[0].value=='scanf':
+        # id = input()
+        param = trans_call_parameter_list(node.children[2])
+        code+=param[2:]
+        code.append('=')
+        if param[0]=='\"%d\"':
+            code.append('int(input())')
+        else:
+            code.append('input()')
+        return code
+    if node.children[0].value=='printf':
+        # print("format" %id)
+        param = trans_call_parameter_list(node.children[2])
+        code.append('print(')
+        print(param)
+        if ',' in param:
+            code.append(param[0])
+            code.append('%')
+            code+=param[2:]
+        else:
+            code+=param
+        code.append(')')
+        print(code)
+        return code
+    if node.children[0].value=='strlen':
+        # len(param)
+        param = trans_call_parameter_list(node.children[2])
+        code.append('len(')
+        code+=param
+        code.append(')')
+        return code
     for child in node.children:
         if child.key=='call_parameter_list':
             code+=trans_call_parameter_list(child)
@@ -293,22 +334,6 @@ def trans_call_parameter(node):
     code += trans_expression(node.children[0])
     return code
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # selection_statement
 def trans_selection(node):
     code = []
@@ -336,7 +361,7 @@ def trans_iteration(node):
             循环体
             更新表达式
         '''
-        code += trans_declaration(node.children[2]) 
+        code += trans_declaration_statement(node.children[2]) 
         code.append("\n")
         code.append("while")
         code += trans_expression(node.children[3])
@@ -344,8 +369,10 @@ def trans_iteration(node):
         code.append("\n")
         inner = []
         inner += trans_compound(node.children[-1])
-        if isinstance(node.children[4],InternalNode):
+        print(node.children[4].key)
+        if node.children[4].key == "expression":
             inner += trans_expression(node.children[4])
+            inner.append("\n")
         code.append(inner)
     elif node.children[0].value == "while":
         '''
@@ -375,7 +402,7 @@ def trans_assignment(node):
         elif child.key == "assignment_operator":
             code.append(child.children[0].value)
         elif child.key == "expression":
-            code.append(trans_expression(child))
+            code += trans_expression(child)
         elif child.key == "array_index":
             code += trans_array(child)    
     return code
@@ -428,8 +455,6 @@ if __name__ == '__main__':
         print(code)
         # 规范风格和缩进
         out = format(code)
-        # 添加库函数
-        out = "from include import *\n" + out
         with open("result.py", 'w') as result_file:
             result_file.write(out)
         

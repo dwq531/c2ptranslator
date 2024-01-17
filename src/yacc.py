@@ -478,7 +478,7 @@ def p_iteration_statement(p):
         p[0].children[1]=ExternalNode('PARENTHESES_LEFT',p[2])
         #p[0].children[2]=p[3]
         #p[0].children[3]=p[4]
-        if(len(p)==8):
+        if(len(p)==6):
             p[0].children[4]=ExternalNode('PARENTHESES_RIGHT',p[5])
             #p[0].children[5]=p[6]
         else:

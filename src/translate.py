@@ -98,24 +98,28 @@ def trans_statement_list(node):
 
 
 # declaration_statement
+def trans_declaration_statement(node):
+    code = []
+    child = node.children[0]
+    code = trans_declaration(child)
+    code.append("\n")
+    return code
+
+# declaration
 def trans_declaration(node):
     code = []
     for child in node.children:
-        if isinstance(child, ExternalNode):
-            code.append(child.value)
-        elif child.key == "declaration_specifiers":
-            # declaration_specifiers，不需要类型，换成def
-            code.append("def")
-        elif child.key == "declarator_list":
-            # declarator_list
-            declarator_list = child
-            for declarator in declarator_list.children:
-                code.append(declarator.children[0].value)
-                code.append("=")
-                code.append("None")
-                code.append(",")
-            code.pop() # 去掉最后一个逗号
-            code.append("\n")
+        if child.key == "declaration_specifiers":
+            # declaration_specifiers，不需要类型
+            code.append("")
+        elif child.key == "init_declarator_list":
+            code += trans_init_declarator_list(child)
+    return code
+
+# init_declarator_list
+def trans_init_declarator_list(node):
+    code = []
+    code.append(node.children[0].children[0].value)
     return code
 
 

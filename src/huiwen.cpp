@@ -24,9 +24,9 @@ int main() {
     scanf("%s", test_str);
 
     if (isPalindrome(test_str)) {
-        cout << "The string is a palindrome." << endl;
+        printf("The string is a palindrome.");
     } else {
-        cout << "The string is not a palindrome." << endl;
+        printf("The string is not a palindrome.");
     }
 
 }

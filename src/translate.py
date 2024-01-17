@@ -388,7 +388,7 @@ def trans_iteration(node):
 
 # jump_statement
 def trans_jump(node):
-    return [node.children[0].value,trans_expression(node.children[1]),"\n"]
+    return [node.children[0].value]+trans_expression(node.children[1])+["\n"]
 
 # assignment_statement
 def trans_assignment(node):

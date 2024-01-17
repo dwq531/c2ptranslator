@@ -99,11 +99,24 @@ def trans_statement_list(node):
 
 # declaration_statement
 def trans_declaration(node):
-    # todo
-    return []
-
-
-
+    code = []
+    for child in node.children:
+        if isinstance(child, ExternalNode):
+            code.append(child.value)
+        elif child.key == "declaration_specifiers":
+            # declaration_specifiers，不需要类型，换成def
+            code.append("def")
+        elif child.key == "declarator_list":
+            # declarator_list
+            declarator_list = child
+            for declarator in declarator_list.children:
+                code.append(declarator.children[0].value)
+                code.append("=")
+                code.append("None")
+                code.append(",")
+            code.pop() # 去掉最后一个逗号
+            code.append("\n")
+    return code
 
 
 # expression_statement
@@ -283,9 +296,21 @@ def trans_call_parameter(node):
 
 # selection_statement
 def trans_selection(node):
-    # todo
-    return []
-
+    code = []
+    if node.children[0].value == "if":
+        code.append("if")
+        code += trans_expression(node.children[2])
+        code.append(":")
+        code.append("\n")
+        code += trans_compound(node.children[4])
+        if isinstance(node.children[6],InternalNode) and node.children[6].key == "else":
+            # If there is an else statement
+            code.append("else:")
+            code.append("\n")
+            code += trans_compound(node.children[6].children[1])
+    return code
+        
+        
 # iteration_statement
 def trans_iteration(node):
     code = []

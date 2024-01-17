@@ -302,12 +302,12 @@ def trans_selection(node):
         code += trans_expression(node.children[2])
         code.append(":")
         code.append("\n")
-        code += trans_compound(node.children[4])
-        if isinstance(node.children[6],InternalNode) and node.children[6].key == "else":
+        code.append(trans_compound(node.children[4]))
+        if len(node.children) >= 7 and node.children[5].value=="else":
             # If there is an else statement
             code.append("else:")
             code.append("\n")
-            code += trans_compound(node.children[6].children[1])
+            code.append(trans_compound(node.children[6]))
     return code
         
         

@@ -119,9 +119,20 @@ def trans_declaration(node):
 # init_declarator_list
 def trans_init_declarator_list(node):
     code = []
-    code.append(node.children[0].children[0].value)
+    for child in node.children:
+        if child.key=='init_declarator_list':
+            code += trans_init_declarator_list(child)
+        elif child.key=='init_declarator':
+            code += trans_init_declarator(child)
+        else:
+            code.append(child.value)
     return code
 
+# init_declarator
+def trans_init_declarator(node):
+    code = []
+    code += trans_expression(node.children[0])
+    return code
 
 # expression_statement
 def trans_expression_statement(node):

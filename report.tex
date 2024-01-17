@@ -55,7 +55,7 @@
 \textbf{词法及语法分析工具: }
 \href{https://tastones.com/stackoverflow/python-language/python-lex-yacc/getting_started_with_ply/}{Lex-Yacc，PLY库}。
 
-\textbf{代码运行方法: }在官网下载并安装PLY库后，运行translate.py，根据提示输入C语言文件名，翻译结果输出在result.py。
+\textbf{代码运行方法: }在官网下载并安装PLY库后，运行translate.py，根据提示输入C语言文件名(huiwen.cpp或sort.cpp)，翻译结果输出在result.py。
 
 \section{实现功能}
 \subsection{词法分析}
@@ -82,7 +82,7 @@
 
 3. 翻译C语言的变量声明的定义语句、赋值语句、算数及逻辑运算、if-else和switch-case控制语句、for和while循环语句、return跳转语句等。
 
-4. 对于C语言中的库函数printf、scanf和strlen，自己编写了python中的同名函数，添加在include.py里，翻译时会在文件开头加上import语句。
+4. 对于C语言中的库函数printf、scanf和strlen，翻译为Python中的print、input和len函数。
 
 
 \section{实现原理}
@@ -133,10 +133,17 @@ C++和python中的运算符号、函数调用规则、数组访问方式等大�
 根据对应叶子节点的value值，直接生成python代码。
 
 声明语句：
-对于变量声明，直接忽略前面的类型标识，将后面内容直接生成为python中的变量声明即可。
+对于变量声明，直接忽略前面的类型标识，将后面内容直接生成为python中的变量声明即可。把未初始化的变量翻译为"id = None"，把数组声明翻译为"array = [0 for \_ in range( 表达式 )]"，其中表达式为数组大小。
 
 选择语句：
 对于if-else语句，将其else翻译为python中的elif/else即可，选择条件和语句均不变即可。
+
+C语言库函数翻译：
+
+把printf(format,param\_list)
+翻译成print(format \% param\_list)，
+把scanf(format,\&param)翻译成param = input()，如果format为"\%d"，则param = int(input())。
+把strlen(str)翻译成len(str)。
 
 \section{分工}
 杜婉晴：标识符，数字，保留字；定义文法；翻译函数定义、迭代语句、赋值语句
